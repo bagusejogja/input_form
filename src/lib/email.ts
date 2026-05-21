@@ -47,14 +47,14 @@ export async function sendNotificationEmail(payload: EmailPayload): Promise<{ su
       <!-- Header -->
       <div style="background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%); padding: 30px; text-align: center; color: white;">
         <h1 style="margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.025em;">Tanda Terima Pengisian Form</h1>
-        <p style="margin: 5px 0 0 0; opacity: 0.85; font-size: 14px;">Dokumen Anda telah berhasil disimpan di OneDrive</p>
+        <p style="margin: 5px 0 0 0; opacity: 0.85; font-size: 14px;">Dokumen Anda telah terkirim</p>
       </div>
       
       <!-- Body -->
       <div style="padding: 30px; background-color: #ffffff;">
-        <p style="font-size: 16px; color: #1f2937; margin-bottom: 24px;">Halo,</p>
+        <p style="font-size: 16px; color: #1f2937; margin-bottom: 24px;">Salam,</p>
         <p style="font-size: 14px; color: #4b5563; line-height: 1.6; margin-bottom: 24px;">
-          Terima kasih telah mengisi formulir. Kami informasikan bahwa data pengisian Anda telah berhasil direkam dan file lampiran telah disimpan dengan aman di server awan kami.
+          Terima kasih telah mengisi formulir. Kami informasikan bahwa data pengisian Anda telah berhasil direkam dan file lampiran telah disimpan.
         </p>
         
         <!-- Summary Box -->
@@ -99,7 +99,7 @@ export async function sendNotificationEmail(payload: EmailPayload): Promise<{ su
       
       <!-- Footer -->
       <div style="background-color: #f9fafb; padding: 15px; text-align: center; font-size: 12px; color: #9ca3af; border-top: 1px solid #e5e7eb;">
-        &copy; 2026 Universitas Gadjah Mada. All Rights Reserved.
+        &copy; 2026 Bidang Anggaran. All Rights Reserved.
       </div>
     </div>
   `;
