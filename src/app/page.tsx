@@ -244,7 +244,7 @@ export default function Home() {
                 <CloudLightning size={16} />
               </span>
               <span style={{ fontSize: '0.8rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.12em', color: '#a78bfa' }}>
-                OneDrive Secure Portal
+                PORTAL FORMULIR
               </span>
             </div>
             <div className="sim-badge" style={{ marginTop: 0 }}>
@@ -252,10 +252,9 @@ export default function Home() {
             </div>
           </div>
           
-          <h1 className="card-title" style={{ fontSize: '2.5rem', marginBottom: '12px' }}>Verifikasi Berkas</h1>
+          <h1 className="card-title" style={{ fontSize: '2.5rem', marginBottom: '12px' }}>Revisi RKAT Periode II 2026</h1>
           <p className="card-subtitle" style={{ marginBottom: '36px' }}>
-            Unggah dokumen penunjang Anda secara instan ke folder OneDrive. 
-            Data Unit & PIC dibaca langsung dari database Supabase Anda.
+            Unggah dokumen penunjang Anda.
           </p>
 
           {errorMsg && (
@@ -338,12 +337,12 @@ export default function Home() {
             {/* 3. INPUT PIC (OTOMATIS BERDASARKAN UNIT - READ ONLY) */}
             <div className="form-group">
               <label className="form-label">
-                PIC Unit (Otomatis Terisi dari Database)<span>*</span>
+                PIC<span>*</span>
               </label>
               
               {!selectedUnit ? (
-                <div className="auto-field empty" style={{ display: 'flex', alignItems: 'center' }}>
-                  <UserCheck size={20} style={{ marginRight: '12px', color: '#9ca3af' }} />
+                <div className="auto-field empty">
+                  <UserCheck className="input-icon" size={20} />
                   Menunggu pemilihan Unit Kerja...
                 </div>
               ) : (
@@ -352,10 +351,10 @@ export default function Home() {
                     type="text"
                     className="form-input"
                     style={{ 
-                      background: 'rgba(124, 58, 237, 0.05)', 
+                      background: '#f8fafc', 
                       borderStyle: 'dashed', 
-                      borderColor: 'rgba(167, 139, 250, 0.4)',
-                      color: '#c084fc',
+                      borderColor: '#cbd5e1',
+                      color: '#6366f1',
                       fontWeight: 600,
                       cursor: 'not-allowed'
                     }}
@@ -363,7 +362,7 @@ export default function Home() {
                     readOnly
                     required
                   />
-                  <UserCheck className="input-icon" size={20} style={{ color: '#c084fc' }} />
+                  <UserCheck className="input-icon" size={20} style={{ color: '#6366f1' }} />
                 </div>
               )}
             </div>
