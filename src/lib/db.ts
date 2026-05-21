@@ -8,7 +8,7 @@ export interface Submission {
   email: string;
   unit: string;
   pic: string; // PIC yang berasosiasi dengan unit
-  files: Array<{ name: string; size: number; url: string; source: 'onedrive_simulated' | 'onedrive' }>;
+  files: Array<{ name: string; size: number; url: string; source: string }>;
   createdAt: string;
 }
 
