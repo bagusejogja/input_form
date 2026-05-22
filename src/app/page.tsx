@@ -51,25 +51,37 @@ export default function Home() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const unitDropdownRef = useRef<HTMLDivElement>(null);
 
-  // Fetch Units from API
+  const [tahun, setTahun] = useState<number>(2026);
+  const [periode, setPeriode] = useState<number>(2);
+  const [judulForm, setJudulForm] = useState<string>('Revisi RKAT Periode II 2026');
+
+  // Load master data dari API route
   useEffect(() => {
-    async function loadUnits() {
+    async function loadData() {
       try {
-        const res = await fetch('/api/units');
-        const data = await res.json();
-        if (data.success) {
-          setUnits(data.data);
-        } else {
-          setErrorMsg('Gagal memuat daftar unit.');
+        const [resUnits, resSettings] = await Promise.all([
+          fetch('/api/units'),
+          fetch('/api/settings')
+        ]);
+        
+        const unitsData = await resUnits.json();
+        if (unitsData.success) {
+          setUnits(unitsData.data);
+        }
+
+        const settingsData = await resSettings.json();
+        if (settingsData.success && settingsData.data) {
+          setJudulForm(settingsData.data.judul_form);
+          setTahun(settingsData.data.tahun_aktif);
+          setPeriode(settingsData.data.periode_aktif);
         }
       } catch (err) {
-        console.error(err);
-        setErrorMsg('Terjadi kesalahan saat memuat data unit.');
+        console.error('Failed to load data', err);
       } finally {
         setLoadingUnits(false);
       }
     }
-    loadUnits();
+    loadData();
   }, []);
 
   // Close dropdowns on click outside
@@ -195,8 +207,8 @@ export default function Home() {
 
     try {
       const formData = new FormData();
-      formData.append('tahun', '2026');
-      formData.append('periode', '2');
+      formData.append('tahun', tahun.toString());
+      formData.append('periode', periode.toString());
       formData.append('email', email);
       formData.append('unit', selectedUnit.nama);
       formData.append('pic', selectedPic);
@@ -254,7 +266,7 @@ export default function Home() {
             </div>
           </div>
           
-          <h1 className="card-title" style={{ fontSize: '2.5rem', marginBottom: '12px' }}>Revisi RKAT Periode II 2026</h1>
+          <h1 className="card-title" style={{ fontSize: '2.5rem', marginBottom: '12px' }}>{judulForm}</h1>
           <p className="card-subtitle" style={{ marginBottom: '36px' }}>
             Unggah dokumen penunjang Anda.
           </p>
@@ -276,7 +288,7 @@ export default function Home() {
                   <input
                     type="text"
                     className="form-input"
-                    value="2026"
+                    value={tahun}
                     readOnly
                     style={{ background: '#f8fafc', color: '#64748b', cursor: 'not-allowed', paddingLeft: '16px' }}
                   />
@@ -290,7 +302,7 @@ export default function Home() {
                   <input
                     type="text"
                     className="form-input"
-                    value="2"
+                    value={periode}
                     readOnly
                     style={{ background: '#f8fafc', color: '#64748b', cursor: 'not-allowed', paddingLeft: '16px' }}
                   />
@@ -541,14 +553,26 @@ export default function Home() {
                             href={file.url} 
                             target="_blank" 
                             rel="noopener noreferrer"
+                            download
                             style={{ 
-                              fontSize: '0.8rem', 
-                              color: '#a78bfa', 
-                              textDecoration: 'underline',
-                              fontWeight: 600
+                              fontSize: '0.85rem', 
+                              color: '#fff', 
+                              background: 'var(--accent-gradient)',
+                              padding: '6px 16px',
+                              borderRadius: '20px',
+                              textDecoration: 'none',
+                              fontWeight: 600,
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '6px',
+                              boxShadow: '0 4px 10px rgba(99, 102, 241, 0.3)',
+                              transition: 'all 0.2s'
                             }}
+                            onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                            onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
                           >
-                            Buka Berkas &rarr;
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            Unduh
                           </a>
                         </div>
                       </div>

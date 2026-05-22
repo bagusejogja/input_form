@@ -78,6 +78,31 @@ export async function getUnits() {
   return MASTER_UNITS;
 }
 
+// Mengambil Pengaturan Dinamis dari Supabase (app_settings)
+export async function getAppSettings() {
+  const defaultSettings = { judul_form: 'Revisi RKAT Periode II 2026', tahun_aktif: 2026, periode_aktif: 2 };
+  
+  if (useSupabase && supabase) {
+    try {
+      // Kita selalu mengambil baris pertama (id = 1) atau yang paling awal
+      const { data, error } = await supabase
+        .from('app_settings')
+        .select('*')
+        .order('id', { ascending: true })
+        .limit(1)
+        .single();
+        
+      if (!error && data) {
+        return data;
+      }
+      console.log('⚠️ Gagal mengambil app_settings dari Supabase, menggunakan default:', error?.message);
+    } catch (e) {
+      console.error('Failed to fetch app_settings:', e);
+    }
+  }
+  return defaultSettings;
+}
+
 // Menyimpan Hasil Submit Form
 export async function saveSubmission(submission: Omit<Submission, 'id' | 'createdAt'>): Promise<{ success: boolean; data: Submission; simulated: boolean }> {
   const newSubmission: Submission = {

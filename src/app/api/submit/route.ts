@@ -42,9 +42,28 @@ export async function POST(req: NextRequest) {
         const arrayBuffer = await file.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
         
+        // Format waktu WIB: HHMMSS
+        const now = new Date();
+        // Menggunakan offset +7 jam secara manual untuk memastikan WIB
+        const wibTime = new Date(now.getTime() + (7 * 60 * 60 * 1000));
+        const hh = String(wibTime.getUTCHours()).padStart(2, '0');
+        const mm = String(wibTime.getUTCMinutes()).padStart(2, '0');
+        const ss = String(wibTime.getUTCSeconds()).padStart(2, '0');
+        const jammenitdetik = `${hh}${mm}${ss}`;
+        
+        // Sanitasi Unit (hapus spasi dan karakter khusus)
+        const cleanUnit = unit.replace(/[^a-zA-Z0-9]/g, '');
+        
+        // Dapatkan ekstensi asli (misal: .pdf)
+        const originalExt = file.name.substring(file.name.lastIndexOf('.'));
+        
+        // Format: tahun_periode_unit_jammenitdetik.ext
+        // Contoh: 2026_2_FakultasTeknik_140510.pdf
+        const customFileName = `${tahun}_${periode}_${cleanUnit}_${jammenitdetik}${originalExt}`;
+
         const uploadResult = await uploadToR2(
           buffer,
-          file.name,
+          customFileName,
           file.type,
           file.size
         );

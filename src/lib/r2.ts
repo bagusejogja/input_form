@@ -32,9 +32,8 @@ export async function uploadToR2(
     throw new Error('Cloudflare R2 credentials are not fully configured in .env.local');
   }
 
-  // Sanitasi nama file dan gabungkan dengan struktur folder yang diminta
-  const cleanFileName = fileName.replace(/[^a-zA-Z0-9.-]/g, '_');
-  const uniqueFileName = `${Date.now()}-${cleanFileName}`;
+  // Gunakan nama file yang sudah diformat dari route.ts
+  const uniqueFileName = fileName;
   
   // Folder sesuai permintaan: "revisi terjadwal/2026_II/"
   const fileKey = `revisi terjadwal/2026_II/${uniqueFileName}`;
