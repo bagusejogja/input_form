@@ -8,6 +8,8 @@ export interface Submission {
   email: string;
   unit: string;
   pic: string; // PIC yang berasosiasi dengan unit
+  tahun?: string;
+  periode?: string;
   files: Array<{ name: string; size: number; url: string; source: string }>;
   createdAt: string;
 }
@@ -95,6 +97,8 @@ export async function saveSubmission(submission: Omit<Submission, 'id' | 'create
           email: newSubmission.email,
           unit: newSubmission.unit,
           pic: newSubmission.pic, // Kolom pic di database
+          tahun: newSubmission.tahun, // Menyimpan tahun ke tabel
+          periode: newSubmission.periode, // Menyimpan periode ke tabel
           files: newSubmission.files,
           created_at: newSubmission.createdAt
         });

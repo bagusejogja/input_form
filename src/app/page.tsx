@@ -195,6 +195,8 @@ export default function Home() {
 
     try {
       const formData = new FormData();
+      formData.append('tahun', '2026');
+      formData.append('periode', '2');
       formData.append('email', email);
       formData.append('unit', selectedUnit.nama);
       formData.append('pic', selectedPic);
@@ -265,6 +267,37 @@ export default function Home() {
           )}
 
           <form onSubmit={handleSubmit}>
+            <div style={{ display: 'flex', gap: '16px' }}>
+              <div className="form-group" style={{ flex: 1 }}>
+                <label className="form-label">
+                  Tahun
+                </label>
+                <div className="input-container">
+                  <input
+                    type="text"
+                    className="form-input"
+                    value="2026"
+                    readOnly
+                    style={{ background: '#f8fafc', color: '#64748b', cursor: 'not-allowed', paddingLeft: '16px' }}
+                  />
+                </div>
+              </div>
+              <div className="form-group" style={{ flex: 1 }}>
+                <label className="form-label">
+                  Periode
+                </label>
+                <div className="input-container">
+                  <input
+                    type="text"
+                    className="form-input"
+                    value="2"
+                    readOnly
+                    style={{ background: '#f8fafc', color: '#64748b', cursor: 'not-allowed', paddingLeft: '16px' }}
+                  />
+                </div>
+              </div>
+            </div>
+
             {/* 1. INPUT EMAIL */}
             <div className="form-group">
               <label className="form-label" htmlFor="email">

@@ -10,6 +10,8 @@ export async function POST(req: NextRequest) {
     const email = formData.get('email') as string;
     const unit = formData.get('unit') as string;
     const pic = formData.get('pic') as string; // Menggunakan 'pic' sebagai ganti 'kelompok'
+    const tahun = formData.get('tahun') as string;
+    const periode = formData.get('periode') as string;
     const files = formData.getAll('files') as File[];
 
     // Validasi input wajib
@@ -71,6 +73,8 @@ export async function POST(req: NextRequest) {
       email,
       unit,
       pic, // Kolom pic di database
+      tahun,
+      periode,
       files: uploadedFiles,
     });
 
