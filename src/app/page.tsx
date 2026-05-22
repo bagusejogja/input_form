@@ -59,6 +59,18 @@ export default function Home() {
   const [r2Folder, setR2Folder] = useState<string>('');
   const [isFormOpen, setIsFormOpen] = useState<boolean>(true);
 
+  // Helper untuk format tanggal sesuai permintaan: "Jumat, 22 Mei 2026, pukul 10.00"
+  const formatTanggalPukul = (dateString: string) => {
+    if (!dateString) return '...';
+    const date = new Date(dateString);
+    const optionsDate: Intl.DateTimeFormatOptions = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+    const optionsTime: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit' };
+    
+    const d = new Intl.DateTimeFormat('id-ID', optionsDate).format(date);
+    const t = new Intl.DateTimeFormat('id-ID', optionsTime).format(date).replace(':', '.');
+    return `${d}, pukul ${t}`;
+  };
+
   // Load master data dari API route
   useEffect(() => {
     async function loadData() {
@@ -313,11 +325,11 @@ export default function Home() {
             }}></div>
             <div style={{ fontSize: '0.9rem', color: isFormOpen ? '#047857' : '#b91c1c', fontWeight: 600, lineHeight: 1.5 }}>
               {isFormOpen 
-                ? "Status: Sedang Menerima Pengajuan" 
+                ? "Masa Revisi RKAT" 
                 : "Status: Formulir Ditutup"
               }
               <div style={{ fontSize: '0.8rem', fontWeight: 500, opacity: 0.8, marginTop: '4px' }}>
-                Jadwal: {waktuBuka ? new Intl.DateTimeFormat('id-ID', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(waktuBuka)) : '...'} s/d {waktuTutup ? new Intl.DateTimeFormat('id-ID', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(waktuTutup)) : '...'}
+                {formatTanggalPukul(waktuBuka)} sampai {formatTanggalPukul(waktuTutup)}
               </div>
             </div>
           </div>
