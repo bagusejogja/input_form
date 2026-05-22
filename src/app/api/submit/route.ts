@@ -73,8 +73,8 @@ export async function POST(req: NextRequest) {
       email,
       unit,
       pic, // Kolom pic di database
-      tahun,
-      periode,
+      tahun: parseInt(tahun || '2026', 10),
+      periode: parseInt(periode || '2', 10),
       files: uploadedFiles,
     });
 

@@ -8,8 +8,8 @@ export interface Submission {
   email: string;
   unit: string;
   pic: string; // PIC yang berasosiasi dengan unit
-  tahun?: string;
-  periode?: string;
+  tahun?: number;
+  periode?: number;
   files: Array<{ name: string; size: number; url: string; source: string }>;
   createdAt: string;
 }
