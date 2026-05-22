@@ -80,7 +80,14 @@ export async function getUnits() {
 
 // Mengambil Pengaturan Dinamis dari Supabase (app_settings)
 export async function getAppSettings() {
-  const defaultSettings = { judul_form: 'Revisi RKAT Periode II 2026', tahun_aktif: 2026, periode_aktif: 2 };
+  const defaultSettings = { 
+    judul_form: 'Revisi RKAT Periode II 2026', 
+    tahun_aktif: 2026, 
+    periode_aktif: 2,
+    waktu_buka: new Date().toISOString(), // Default buka sekarang
+    waktu_tutup: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // Default tutup 30 hari lagi
+    r2_folder: 'revisi_terjadwal/2026_II'
+  };
   
   if (useSupabase && supabase) {
     try {

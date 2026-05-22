@@ -54,6 +54,10 @@ export default function Home() {
   const [tahun, setTahun] = useState<number>(2026);
   const [periode, setPeriode] = useState<number>(2);
   const [judulForm, setJudulForm] = useState<string>('Revisi RKAT Periode II 2026');
+  const [waktuBuka, setWaktuBuka] = useState<string>('');
+  const [waktuTutup, setWaktuTutup] = useState<string>('');
+  const [r2Folder, setR2Folder] = useState<string>('');
+  const [isFormOpen, setIsFormOpen] = useState<boolean>(true);
 
   // Load master data dari API route
   useEffect(() => {
@@ -74,6 +78,20 @@ export default function Home() {
           setJudulForm(settingsData.data.judul_form);
           setTahun(settingsData.data.tahun_aktif);
           setPeriode(settingsData.data.periode_aktif);
+          setWaktuBuka(settingsData.data.waktu_buka);
+          setWaktuTutup(settingsData.data.waktu_tutup);
+          setR2Folder(settingsData.data.r2_folder);
+
+          // Validasi Waktu
+          const now = new Date();
+          const openTime = new Date(settingsData.data.waktu_buka);
+          const closeTime = new Date(settingsData.data.waktu_tutup);
+          
+          if (now < openTime || now > closeTime) {
+            setIsFormOpen(false);
+          } else {
+            setIsFormOpen(true);
+          }
         }
       } catch (err) {
         console.error('Failed to load data', err);
@@ -209,6 +227,7 @@ export default function Home() {
       const formData = new FormData();
       formData.append('tahun', tahun.toString());
       formData.append('periode', periode.toString());
+      formData.append('r2_folder', r2Folder);
       formData.append('email', email);
       formData.append('unit', selectedUnit.nama);
       formData.append('pic', selectedPic);
@@ -271,12 +290,29 @@ export default function Home() {
             Unggah dokumen penunjang Anda.
           </p>
 
-          {errorMsg && (
-            <div className="alert alert-danger" style={{ animation: 'slideIn 0.3s ease-out' }}>
-              <AlertCircle size={20} style={{ flexShrink: 0 }} />
-              <div>{errorMsg}</div>
+          {!isFormOpen ? (
+            <div className="alert alert-danger" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '32px' }}>
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: '16px', color: '#ef4444' }}><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '12px' }}>Formulir Ditutup</h3>
+              <p style={{ fontSize: '1rem', color: '#475569', lineHeight: 1.6 }}>
+                Mohon maaf, pengisian form <strong>{judulForm}</strong> hanya dibuka dari tanggal<br/>
+                <span style={{ color: '#1e293b', fontWeight: 600 }}>
+                  {waktuBuka ? new Intl.DateTimeFormat('id-ID', { dateStyle: 'full', timeStyle: 'short' }).format(new Date(waktuBuka)) : '...'}
+                </span>
+                <br/>sampai dengan<br/>
+                <span style={{ color: '#1e293b', fontWeight: 600 }}>
+                  {waktuTutup ? new Intl.DateTimeFormat('id-ID', { dateStyle: 'full', timeStyle: 'short' }).format(new Date(waktuTutup)) : '...'}
+                </span>
+              </p>
             </div>
-          )}
+          ) : (
+            <>
+              {errorMsg && (
+                <div className="alert alert-danger" style={{ animation: 'slideIn 0.3s ease-out' }}>
+                  <AlertCircle size={20} style={{ flexShrink: 0 }} />
+                  <div>{errorMsg}</div>
+                </div>
+              )}
 
           <form onSubmit={handleSubmit}>
             <div style={{ display: 'flex', gap: '16px' }}>
@@ -498,6 +534,8 @@ export default function Home() {
               </button>
             </div>
           </form>
+          </>
+          )}
         </div>
       ) : (
         /* SUCCESS VIEW */

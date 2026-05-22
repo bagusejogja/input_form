@@ -26,7 +26,8 @@ export async function uploadToR2(
   fileBuffer: Buffer,
   fileName: string,
   mimeType: string,
-  fileSize: number
+  fileSize: number,
+  r2Folder: string = 'revisi_terjadwal/2026_II'
 ): Promise<R2UploadResult> {
   if (!accountId || !accessKeyId || !secretAccessKey || !bucketName) {
     throw new Error('Cloudflare R2 credentials are not fully configured in .env.local');
@@ -35,8 +36,11 @@ export async function uploadToR2(
   // Gunakan nama file yang sudah diformat dari route.ts
   const uniqueFileName = fileName;
   
-  // Folder sesuai permintaan: "revisi terjadwal/2026_II/"
-  const fileKey = `revisi terjadwal/2026_II/${uniqueFileName}`;
+  // Hapus slash di awal dan akhir r2Folder agar bersih
+  const cleanFolder = r2Folder.replace(/^\/+|\/+$/g, '');
+  
+  // Gunakan folder dari parameter (bisa dinamis dari DB)
+  const fileKey = `${cleanFolder}/${uniqueFileName}`;
 
   console.log(`📤 Mengunggah "${fileName}" ke Cloudflare R2 pada folder "${fileKey}"...`);
 

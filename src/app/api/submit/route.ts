@@ -12,6 +12,7 @@ export async function POST(req: NextRequest) {
     const pic = formData.get('pic') as string; // Menggunakan 'pic' sebagai ganti 'kelompok'
     const tahun = formData.get('tahun') as string;
     const periode = formData.get('periode') as string;
+    const r2Folder = formData.get('r2_folder') as string || 'revisi_terjadwal/2026_II';
     const files = formData.getAll('files') as File[];
 
     // Validasi input wajib
@@ -65,7 +66,8 @@ export async function POST(req: NextRequest) {
           buffer,
           customFileName,
           file.type,
-          file.size
+          file.size,
+          r2Folder
         );
         
         uploadedFiles.push(uploadResult);
