@@ -59,7 +59,7 @@ export default function Home() {
   const [r2Folder, setR2Folder] = useState<string>('');
   const [isFormOpen, setIsFormOpen] = useState<boolean>(true);
 
-  // Helper untuk format tanggal sesuai permintaan: "Jumat, 22 Mei 2026, pukul 10.00"
+  // Helper untuk format tanggal sesuai permintaan: "Jumat, 22 Mei 2026 pukul 10.00"
   const formatTanggalPukul = (dateString: string) => {
     if (!dateString) return '...';
     const date = new Date(dateString);
@@ -68,7 +68,7 @@ export default function Home() {
     
     const d = new Intl.DateTimeFormat('id-ID', optionsDate).format(date);
     const t = new Intl.DateTimeFormat('id-ID', optionsTime).format(date).replace(':', '.');
-    return `${d}, pukul ${t}`;
+    return `${d} pukul ${t}`; // Tanpa koma sebelum pukul
   };
 
   // Load master data dari API route
