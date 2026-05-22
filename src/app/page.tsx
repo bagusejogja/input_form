@@ -286,23 +286,48 @@ export default function Home() {
           </div>
           
           <h1 className="card-title" style={{ fontSize: '2.5rem', marginBottom: '12px' }}>{judulForm}</h1>
-          <p className="card-subtitle" style={{ marginBottom: '36px' }}>
+          <p className="card-subtitle" style={{ marginBottom: '24px' }}>
             Unggah dokumen penunjang Anda.
           </p>
 
+          {/* Banner Status Form */}
+          <div style={{
+            background: isFormOpen ? 'rgba(16, 185, 129, 0.08)' : 'rgba(239, 68, 68, 0.08)',
+            border: `1px solid ${isFormOpen ? 'rgba(16, 185, 129, 0.2)' : 'rgba(239, 68, 68, 0.2)'}`,
+            borderRadius: '16px',
+            padding: '16px 20px',
+            marginBottom: '36px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+            backdropFilter: 'blur(8px)',
+            transition: 'all 0.3s ease'
+          }}>
+            <div style={{
+              width: '10px',
+              height: '10px',
+              borderRadius: '50%',
+              background: isFormOpen ? '#10b981' : '#ef4444',
+              boxShadow: `0 0 10px ${isFormOpen ? 'rgba(16, 185, 129, 0.8)' : 'rgba(239, 68, 68, 0.8)'}`,
+              flexShrink: 0
+            }}></div>
+            <div style={{ fontSize: '0.9rem', color: isFormOpen ? '#047857' : '#b91c1c', fontWeight: 600, lineHeight: 1.5 }}>
+              {isFormOpen 
+                ? "Status: Sedang Menerima Pengajuan" 
+                : "Status: Formulir Ditutup"
+              }
+              <div style={{ fontSize: '0.8rem', fontWeight: 500, opacity: 0.8, marginTop: '4px' }}>
+                Jadwal: {waktuBuka ? new Intl.DateTimeFormat('id-ID', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(waktuBuka)) : '...'} s/d {waktuTutup ? new Intl.DateTimeFormat('id-ID', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(waktuTutup)) : '...'}
+              </div>
+            </div>
+          </div>
+
           {!isFormOpen ? (
-            <div className="alert alert-danger" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '32px' }}>
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: '16px', color: '#ef4444' }}><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '12px' }}>Formulir Ditutup</h3>
-              <p style={{ fontSize: '1rem', color: '#475569', lineHeight: 1.6 }}>
-                Mohon maaf, pengisian form <strong>{judulForm}</strong> hanya dibuka dari tanggal<br/>
-                <span style={{ color: '#1e293b', fontWeight: 600 }}>
-                  {waktuBuka ? new Intl.DateTimeFormat('id-ID', { dateStyle: 'full', timeStyle: 'short' }).format(new Date(waktuBuka)) : '...'}
-                </span>
-                <br/>sampai dengan<br/>
-                <span style={{ color: '#1e293b', fontWeight: 600 }}>
-                  {waktuTutup ? new Intl.DateTimeFormat('id-ID', { dateStyle: 'full', timeStyle: 'short' }).format(new Date(waktuTutup)) : '...'}
-                </span>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '40px 20px', background: 'rgba(255,255,255,0.4)', borderRadius: '24px', border: '1px dashed rgba(239, 68, 68, 0.3)' }}>
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: '24px', color: '#ef4444', opacity: 0.8 }}><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              <h3 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '16px', color: '#1e293b' }}>Penerimaan Berakhir</h3>
+              <p style={{ fontSize: '1.05rem', color: '#475569', lineHeight: 1.6, maxWidth: '400px' }}>
+                Sesi pengisian untuk <strong>{judulForm}</strong> telah ditutup. Silakan hubungi administrator jika Anda memerlukan bantuan lebih lanjut.
               </p>
             </div>
           ) : (
@@ -315,33 +340,47 @@ export default function Home() {
               )}
 
           <form onSubmit={handleSubmit}>
-            <div style={{ display: 'flex', gap: '16px' }}>
-              <div className="form-group" style={{ flex: 1 }}>
-                <label className="form-label">
-                  Tahun
+            <div style={{ display: 'flex', gap: '16px', marginBottom: '28px' }}>
+              <div style={{ flex: 1 }}>
+                <label className="form-label" style={{ marginBottom: '8px', color: '#64748b', fontSize: '13px' }}>
+                  Tahun Anggaran
                 </label>
-                <div className="input-container">
-                  <input
-                    type="text"
-                    className="form-input"
-                    value={tahun}
-                    readOnly
-                    style={{ background: '#f8fafc', color: '#64748b', cursor: 'not-allowed', paddingLeft: '16px' }}
-                  />
+                <div style={{
+                  background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(168, 85, 247, 0.05) 100%)',
+                  border: '1px solid rgba(99, 102, 241, 0.2)',
+                  borderRadius: '16px',
+                  padding: '14px 20px',
+                  color: 'var(--accent-color)',
+                  fontWeight: 800,
+                  fontSize: '1.1rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.02)'
+                }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                  {tahun}
                 </div>
               </div>
-              <div className="form-group" style={{ flex: 1 }}>
-                <label className="form-label">
+              <div style={{ flex: 1 }}>
+                <label className="form-label" style={{ marginBottom: '8px', color: '#64748b', fontSize: '13px' }}>
                   Periode
                 </label>
-                <div className="input-container">
-                  <input
-                    type="text"
-                    className="form-input"
-                    value={periode}
-                    readOnly
-                    style={{ background: '#f8fafc', color: '#64748b', cursor: 'not-allowed', paddingLeft: '16px' }}
-                  />
+                <div style={{
+                  background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(168, 85, 247, 0.05) 100%)',
+                  border: '1px solid rgba(99, 102, 241, 0.2)',
+                  borderRadius: '16px',
+                  padding: '14px 20px',
+                  color: 'var(--accent-color)',
+                  fontWeight: 800,
+                  fontSize: '1.1rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.02)'
+                }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                  {periode}
                 </div>
               </div>
             </div>
